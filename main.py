@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 
+def get_theme_colors():
+    if st.session_state.get("theme") == "dark":
+        return "#f1f1f1", "#333333"  # 다크모드: 밝은 배경에 어두운 글자
+    else:
+        return "#333333", "#f1f1f1"  # 라이트모드: 어두운 배경에 밝은 글자
+    
 # 페이지 상태 저장
 if "page" not in st.session_state:
     st.session_state["page"] = "마약이란 무엇인가"  # 기본 페이지 설정
@@ -71,9 +77,34 @@ elif current_page == "마약 예방 방법":
         SNS, 다크웹 등을 통한 마약 거래가 증가하는 만큼 의심스러운 광고나 연락 주의하기.  
         마약 관련 유혹이 있는 경우 단호하게 거절하고 관련 정보를 공유하지 않기.
     """)
+    st.video("https://www.youtube.com/watch?v=lwlGZ2YdLi8")
 
 elif current_page == "마약을 겪은 사람과의 인터뷰":
-    st.write("이전에 마약을 경험했던 사람의 이야기를 들어보겠습니다...")
+    interview = [
+        ("Q. 마약을 어떻게 접하게 되었나요?", "A. 처음에는 친구들의 유혹으로 마약을 접하게 되었습니다. 당시에는 호기심과 스트레스 해소를 위해 시작했지만, 점점 더 빠져들게 되었습니다."),
+        ("Q. 마약 중독의 과정은 어땠나요?", "A. 처음에는 즐거운 기분을 느꼈지만 점차 의존성이 커졌습니다. 점점 마약 없이 일상생활을 하기 어려워졌고, 결국 중독을 겪게 되었습니다."),
+        ("Q. 중독 회복 과정은 어떻게 되었나요?", "A. 회복 과정은 매우 힘들었습니다. 나 자신을 되돌아보며 점차 나아가려는 노력이 필요했지만, 모임에서 받은 도움과 함께 조금씩 회복할 수 있었습니다. 주위의 지지와 나만의 변화가 중요한 역할을 했습니다."),
+        ("Q. 마약 예방을 위해 사회에서 무엇을 해야 할까요?", "A. 사회는 마약 중독을 단순히 범죄로 보지 말고, 질병으로 인식해야 합니다. 마약 예방 교육과 지원 시스템이 중요하며, 청소년들에게는 건강한 대체 활동을 제공하는 것이 필요합니다."),
+        ("Q. 앞으로 마약에 대한 인식을 어떻게 개선할 수 있을까요?", "A. 마약을 단순한 잘못된 선택이 아니라, 질병으로 인식하는 문화가 필요합니다. 또한 마약의 위험성을 알리고, 중독자들을 돕는 사회적 분위기와 지원 체계가 더욱 강화되어야 합니다.")
+    ]
+
+    question_color, answer_color = get_theme_colors()
+    
+    # 말풍선 스타일로 질문은 왼쪽, 답변은 그 아래에 배치
+    for q, a in interview:
+        st.markdown(f'''
+        <div style="display: flex; justify-content: flex-start; margin-bottom: 20px;">
+            <div style="background-color:{question_color}; color:{answer_color}; border-radius:15px; padding:10px; width:60%; font-size:16px; font-family:Arial, sans-serif; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+                <strong>{q}</strong>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+            <div style="background-color:{answer_color}; color:{question_color}; border-radius:15px; padding:10px; width:80%; font-size:16px; font-family:Arial, sans-serif; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); margin-top: 10px;">
+                {a}
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
+    st.write("###### 출처: https://channelpnu.pusan.ac.kr/news/articleView.html?idxno=34682")
 
 # 페이지 버튼 UI 생성
 col1, col2, col3, col4 = st.columns(4)
